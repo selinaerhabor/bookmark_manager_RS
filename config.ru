@@ -1,4 +1,4 @@
 require './app'
-run ControllerClass
+run Bookmark
 
 # run with rackup
