@@ -1,19 +1,12 @@
 # Code needed to run the web app, orgnaised into Classes and Methods
+require 'pg'
 
 class Bookmarks
-  def initialize
-    @bookmark_list = [
-      "www.google.co.uk",
-      "www.yahoo.co.uk",
-      "www.askjeeves.com"
-    ]
-  end
-  def all
-    list = ""
-    @bookmark_list.each do |item|
-      list += "<li>" + item
-    end
-    return list
+
+  def self.all
+    connection = PG.connect(dbname: 'bookmark_manager')
+    result = connection.exec("SELECT * FROM bookmarks;")
+    result.map { |bookmarks| bookmarks['url'] }
   end
 
 end
