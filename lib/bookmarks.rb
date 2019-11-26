@@ -2,12 +2,16 @@
 
 class Bookmarks
   def initialize
-    @bookmark_list = ["Google", "Yahoo", "Ask_Jeeves"]
+    @bookmark_list = [
+      "www.google.co.uk",
+      "www.yahoo.co.uk",
+      "www.askjeeves.com"
+    ]
   end
   def all
     list = ""
     @bookmark_list.each do |item|
-      list += item + "<br>"
+      list += "<li>" + item
     end
     return list
   end

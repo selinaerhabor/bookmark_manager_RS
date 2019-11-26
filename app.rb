@@ -11,6 +11,7 @@ class Bookmark < Sinatra::Base
   get '/bookmarks' do
     bookmarks = Bookmarks.new
     @bookmarks = bookmarks.all
+    erb :bookmarks
   end
   run! if app_file == $0
 end
