@@ -14,15 +14,22 @@
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 require_relative './setup_test_database'
+require 'capybara'
+require 'capybara/rspec'
+require 'rspec'
+require 'feature/web_helpers'
+require File.join(File.dirname(__FILE__), '..', 'app.rb')
+
 ENV['ENVIRONMENT'] = 'test'
 
-  # Require all the testing gems
-  require 'capybara'
-  require 'capybara/rspec'
-  require 'rspec'
-  require 'feature/web_helpers' # Allows repeated actions in feature tests to
-                                 # be outsourced to this file
-  require File.join(File.dirname(__FILE__), '..', 'app.rb')
+RSpec.configure do |config|
+  config.before(:each) do
+    require 'setup_test_database.rb'
+    setup_test_database
+  end
+end
+
+
 Capybara.app = Bookmark
 
 # SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([

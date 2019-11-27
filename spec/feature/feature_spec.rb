@@ -1,4 +1,4 @@
-require "capybara/rspec"
+require 'pg'
 
 # feature 'returns home page' do
 #   scenario 'specific thing it does' do
@@ -9,9 +9,16 @@ require "capybara/rspec"
 
 feature 'Viewing Bookmarks' do
   scenario 'Shows bookmarks at the /bookmarks route' do
-    visit('/bookmarks')
-    expect(page).to have_content "http://www.makersacademy.com"
-    expect(page).to have_content "http://www.destroyallsoftware.com"
-    expect(page).to have_content "http://www.google.com"
+    connection = PG.connect(dbname: 'bookmark_manager_test')
+
+    connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.makersacademy.com');")
+    connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.destroyallsoftware.com');")
+    connection.exec("INSERT INTO bookmarks (url) VALUES ('http://www.google.com');")
+
+    visit('/bookmarks/new')
+    click_button("Submit")
+    expect(page).to have_content 'http://www.makersacademy.com'
+    expect(page).to have_content 'http://www.destroyallsoftware.com'
+    expect(page).to have_content 'http://www.google.com'
   end
 end
